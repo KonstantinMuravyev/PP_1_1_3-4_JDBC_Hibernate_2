@@ -18,9 +18,7 @@ public class Util {
     private static final String PASSWORD = "poi48fea861";
     private static SessionFactory sessionFactory = null;
 
-
-    public static SessionFactory getConnection() {
-
+    public static Connection getConnection() {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -28,6 +26,10 @@ public class Util {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+        return connection;
+    }
+    public static SessionFactory getSessionFactory() {
+
         try {
             Configuration configuration = new Configuration()
                     .setProperty("hibernate.connection.driver_class", DRIVER)
