@@ -7,20 +7,32 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class Util {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String HOST = "jdbc:mysql://localhost:3306/dbtest";
-    private static final String LOGIN = "root";
+    private static final String URL = "jdbc:mysql://localhost:3306/dbtest";
+    private static final String USERNAME = "root";
     private static final String PASSWORD = "poi48fea861";
     private static SessionFactory sessionFactory = null;
 
+
     public static SessionFactory getConnection() {
 
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
         try {
             Configuration configuration = new Configuration()
                     .setProperty("hibernate.connection.driver_class", DRIVER)
-                    .setProperty("hibernate.connection.url", HOST)
-                    .setProperty("hibernate.connection.username", LOGIN)
+                    .setProperty("hibernate.connection.url", URL)
+                    .setProperty("hibernate.connection.username", USERNAME)
                     .setProperty("hibernate.connection.password", PASSWORD)
                     .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect")
                     .addAnnotatedClass(User.class)
